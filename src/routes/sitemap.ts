@@ -63,12 +63,12 @@ const sitemap: MenuItem[] = [
         icon: '',
         path: paths.signin,
       },
-      {
-        name: 'Sign Up',
-        pathName: 'signup',
-        icon: '',
-        path: paths.signup,
-      },
+      // {
+      //   name: 'Sign Up',
+      //   pathName: 'signup',
+      //   icon: '',
+      //   path: paths.signup,
+      // },
     ],
   },
 ];
