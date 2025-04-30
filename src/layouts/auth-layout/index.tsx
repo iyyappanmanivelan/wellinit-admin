@@ -1,11 +1,18 @@
 import { PropsWithChildren } from 'react';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
+<<<<<<< HEAD
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import Image from 'components/base/Image';
 import LogoImg from 'assets/images/wellinit_logo.png';
+=======
+// import ButtonBase from '@mui/material/ButtonBase';
+// import Typography from '@mui/material/Typography';
+// import Image from 'components/base/Image';
+// import LogoImg from 'assets/images/Logo.png';
+>>>>>>> b3b1e60e5e2cf85b893edda75d0675f7963ff2a2
 
 const AuthLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -19,7 +26,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
       minHeight="100vh"
       position="relative"
     >
-      <ButtonBase
+      {/* <ButtonBase
         component={Link}
         href="/"
         disableRipple
@@ -27,9 +34,13 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
       >
         <Image src={LogoImg} alt="logo" height={36} width={36} sx={{ mr: 1 }} />
         <Typography variant="h4" color="text.primary" letterSpacing={1}>
+<<<<<<< HEAD
           Wellinit
+=======
+         Wellinit
+>>>>>>> b3b1e60e5e2cf85b893edda75d0675f7963ff2a2
         </Typography>
-      </ButtonBase>
+      </ButtonBase> */}
       <Paper sx={{ px: 2, py: 3, width: 1, maxWidth: 380 }}>{children}</Paper>
     </Stack>
   );

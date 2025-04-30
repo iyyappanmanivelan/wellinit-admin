@@ -64,7 +64,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/dnx',
+    basename: '/wellinit',
   },
 );
 
