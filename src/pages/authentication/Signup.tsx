@@ -2,7 +2,7 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -36,7 +36,7 @@ const Signup = () => {
         Let's Join us! create account with,
       </Typography>
 
-      <Stack mt={3} spacing={1.75} width={1}>
+      {/* <Stack mt={3} spacing={1.75} width={1}>
         <Button
           variant="contained"
           color="secondary"
@@ -55,9 +55,9 @@ const Signup = () => {
         >
           Apple
         </Button>
-      </Stack>
+      </Stack> */}
 
-      <Divider sx={{ my: 4 }}>or Signup with</Divider>
+      {/* <Divider sx={{ my: 4 }}>or Signup with</Divider> */}
 
       <Stack component="form" mt={3} onSubmit={handleSubmit} direction="column" gap={2}>
         <TextField

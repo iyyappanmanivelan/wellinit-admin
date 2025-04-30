@@ -1,0 +1,55 @@
+.add-img img , .blog-head img , .blogimg img{
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+}
+.add-img h5{
+    font-size: 14px;
+    color: #ffff;
+    margin: 0px;
+}
+
+.add-img{
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color:#00a9e5;
+}
+.bloginput{
+    margin: 20px 0px;
+}
+
+.bloginput input::placeholder , .bloginput textarea::placeholder{
+    font-size: 13px;
+    color: rgb(132, 132, 132);
+}
+.removeimg{
+    top: 10px;
+    right: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 4px 4px;
+    line-height: 2px;
+    border-radius: 30px;
+}
+
+
+.blogimg{
+    text-align: center;
+    border: 3px dotted #00a9e5;
+    width: 100%;
+    border-radius: 10px;
+    padding: 40px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.bloginput button{
+    padding: 13px 40px ;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.error{
+    font-size: 12px;
+    color: rgb(254, 48, 48);;
+}

@@ -29,28 +29,28 @@ const sitemap: MenuItem[] = [
   },
   {
     id: 'task',
-    subheader: 'Task',
-    path: '#!',
+    subheader: 'Manage Blog Post',
+    path: paths.manageblogs,
     icon: 'hugeicons:book-open-01',
   },
-  {
-    id: 'mentors',
-    subheader: 'Mentors',
-    path: '#!',
-    icon: 'mynaui:user-hexagon',
-  },
-  {
-    id: 'messages',
-    subheader: 'Messages',
-    path: '#!',
-    icon: 'mage:message-dots',
-  },
-  {
-    id: 'settings',
-    subheader: 'Settings',
-    path: '#!',
-    icon: 'hugeicons:settings-01',
-  },
+  // {
+  //   id: 'mentors',
+  //   subheader: 'Blog Content Management',
+  //   path: '#!',
+  //   icon: 'mynaui:user-hexagon',
+  // },
+  // {
+  //   id: 'messages',
+  //   subheader: 'Messages',
+  //   path: '#!',
+  //   icon: 'mage:message-dots',
+  // },
+  // {
+  //   id: 'settings',
+  //   subheader: 'Settings',
+  //   path: '#!',
+  //   icon: 'hugeicons:settings-01',
+  // },
   {
     id: 'authentication',
     subheader: 'Authentication',

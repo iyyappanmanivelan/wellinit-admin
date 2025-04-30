@@ -10,6 +10,7 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import IconifyIcon from 'components/base/IconifyIcon';
 import { Task } from 'data/tasks';
 
+
 interface TaskCardProps {
   data: Task;
 }
@@ -61,6 +62,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
           </AvatarGroup>
         </Stack>
       </CardContent>
+      
     </Card>
   );
 };

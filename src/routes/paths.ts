@@ -11,6 +11,7 @@ export default {
   mentors: `/${rootPaths.pageRoot}/mentors`,
   messages: `/${rootPaths.pageRoot}/messages`,
   settings: `/${rootPaths.pageRoot}/settings`,
+  manageblogs : `/${rootPaths.pageRoot}/blog`,
 
   signin: `/${rootPaths.authRoot}/signin`,
   signup: `/${rootPaths.authRoot}/signup`,

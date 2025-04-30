@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import Image from 'components/base/Image';
-import LogoImg from 'assets/images/Logo.png';
+import LogoImg from 'assets/images/wellinit_logo.png';
 
 const AuthLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -27,7 +27,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
       >
         <Image src={LogoImg} alt="logo" height={36} width={36} sx={{ mr: 1 }} />
         <Typography variant="h4" color="text.primary" letterSpacing={1}>
-          DNX
+          Wellinit
         </Typography>
       </ButtonBase>
       <Paper sx={{ px: 2, py: 3, width: 1, maxWidth: 380 }}>{children}</Paper>
