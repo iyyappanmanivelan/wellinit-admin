@@ -12,6 +12,7 @@ export default {
   messages: `/${rootPaths.pageRoot}/messages`,
   settings: `/${rootPaths.pageRoot}/settings`,
   manageblogs : `/${rootPaths.pageRoot}/blog`,
+  blogdetail : `/${rootPaths.pageRoot}/blogdetail/:id`,
 
   signin: `/${rootPaths.authRoot}/signin`,
   signup: `/${rootPaths.authRoot}/signup`,

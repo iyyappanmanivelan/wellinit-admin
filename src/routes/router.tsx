@@ -7,6 +7,7 @@ import AuthLayout from 'layouts/auth-layout';
 import Splash from 'components/loader/Splash';
 import PageLoader from 'components/loader/PageLoader';
 import ManageBlogs from 'pages/manageblogs';
+import Blogdetail from 'pages/blogdetail';
 
 const App = lazy(() => import('App'));
 const Dashboard = lazy(() => import('pages/dashboard'));
@@ -39,6 +40,10 @@ const router = createBrowserRouter(
             {
               path: paths.manageblogs,
               element : <ManageBlogs/>
+            },
+            {
+              path : paths.blogdetail,
+              element : <Blogdetail/>
             }
           ],
         },

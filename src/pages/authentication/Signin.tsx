@@ -33,8 +33,11 @@ const Signin = () => {
   const [user, setUser] = useState<SigninData>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error , seterror] = useState<string>()
+
+const AUTHURL = import.meta.env.VITE_AUTH_API_KEY;
+
   
-  const USERDATA = '/user/user_data'
+ 
   const navigate = useNavigate()
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +46,7 @@ const Signin = () => {
 
 
  const Handlesingin_Data = async (data:SigninData) : Promise <UserResponse | null > =>{
-    const response =  await instance.get(`${USERDATA}?email=${data?.email}&password=${data?.password}`)
+    const response =  await instance.get(`${AUTHURL}?email=${data?.email}&password=${data?.password}`)
     return response?.data
 }
 

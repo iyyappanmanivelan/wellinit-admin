@@ -1,9 +1,11 @@
 import axios  from "axios";
 
+const BASEURL = import.meta.env.VITE_API_URL;
+
 const defaultOptions = {
-  baseURL:  "http://localhost:8000",
+  baseURL:  BASEURL,
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded" ,
+    "Content-Type": "application/json" ,
     Accept: 'application/json',
   },
 };

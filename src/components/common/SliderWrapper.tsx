@@ -8,7 +8,6 @@ import ReactSwiper from 'components/base/ReactSwiper';
 // import IconifyIcon from 'components/base/IconifyIcon';
 import useResizeObserver from 'components/hooks/useResizeObserver';
 // import create from "assets/images/icons/create.png"
-import Modal from "components/common/Modal"
 
 
 
@@ -89,7 +88,6 @@ const SliderWrapper = <T extends HasId>({ title, SliderCard, data }: SliderWrapp
 
         </Stack> */}
 
-        <Modal/>
 
 
       </Stack>
