@@ -3,7 +3,7 @@
 // import SliderWrapper from 'components/common/SliderWrapper';
 import { useEffect, useState } from 'react';
 import { instance } from 'config/config';
-import { Avatar, AvatarGroup, Box, Card, CardContent, CardMedia, Modal, Stack, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Card, CardContent, CardMedia, CircularProgress, Modal, Stack, Typography } from '@mui/material';
 import ReactSwiper from 'components/base/ReactSwiper';
 import { SwiperSlide } from 'swiper/react';
 import noimg from 'assets/images/noimg.jpg'
@@ -60,6 +60,7 @@ const UpcomingTask = () => {
 
   const screenWidth = useScreenWidth()
   const slidesPerView = screenWidth >= 1024 ? 3 : screenWidth >= 768 ? 2 : 1
+  const [Loading , setLoading] = useState<boolean>(false)
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -97,7 +98,9 @@ const UpcomingTask = () => {
 
     validationSchema: schema,
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
+
+      setLoading(true)
 
       try {
 
@@ -121,20 +124,21 @@ const UpcomingTask = () => {
 
         const response = await instance.put(`${apiKey}/${bbid ? bbid : null}`, data)
         console.log('vfv', response)
-        console.log(values)
-        resetForm()
+        setLoading(false)
+        // resetForm()
         FETCHBLOGDATA()
         toast.success('Blog Edited Succesfully')
-        // setblobimg2([])
-        setbolbimg(undefined)
-        setmultimg([])
-        handleClose()
+        // setbolbimg(undefined)
+        // setmultimg([])
+        // handleClose2()
+        
 
 
       }
       catch (err) {
         console.log(err)
         toast.error('Somthing error ! Try again')
+        setLoading(false)
       }
     }
   })
@@ -233,6 +237,7 @@ const UpcomingTask = () => {
         Formik.setFieldValue('name', res?.name)
         Formik.setFieldValue('title', res?.title)
         Formik.setFieldValue('content', res?.content)
+        Formik.setFieldValue('comment', res?.comment)
         Formik.setFieldValue('img', res?.img)
         setmultimg(res?.relatedimg)
       })
@@ -391,10 +396,10 @@ const UpcomingTask = () => {
               <img src={close} className='img-fluid' onClick={handleClose} />
             </div>
 
-            <h3> Edit and Publish Your Health Expertise</h3>
+            <h3 style={{margin:"10px 0px"}}> Edit and Publish Your Health Expertise</h3>
 
 
-            <form onSubmit={Formik.handleSubmit} style={{ overflowY: "scroll", height: "450px", marginTop: "20px" }}>
+            <form onSubmit={Formik.handleSubmit} style={{ overflowY: "scroll", height: "450px" }}>
               <div className='bloginput'>
                 <label>Name</label>
                 <TextField
@@ -521,8 +526,15 @@ const UpcomingTask = () => {
               </div>
 
               <div className="bloginput">
-                <button className='btn' type='submit' style={{ backgroundColor: "#00a9e5", color: "#ffff", border: "none", borderRadius: "5px" }}>Submit</button>
+                <button className='btn' type='submit' 
+                style={{ backgroundColor: "#00a9e5", color: "#ffff", border: "none", borderRadius: "5px" }}>
+                  {Loading ?  <CircularProgress color="secondary"  size="20px"/> : 'submit' }
+                  
+                  </button>
               </div>
+
+            
+              
             </form>
           </Box>
         </Modal>

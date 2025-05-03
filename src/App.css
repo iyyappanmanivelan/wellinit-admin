@@ -63,6 +63,8 @@
 .bloginput button{
     padding: 13px 40px ;
     margin-top: 10px;
+    width: 120px;
+    height: 45px;
     cursor: pointer;
 }
 
@@ -135,4 +137,7 @@
     right: 0px;
     background-color: #dcd6d6;
     padding: 0px 2px;
+}
+.bloginput button span{
+    color: #fff !important;
 }

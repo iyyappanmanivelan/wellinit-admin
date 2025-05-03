@@ -6,7 +6,7 @@ import create from "assets/images/icons/create.png"
 import close from "assets/images/icons/close.png"
 import upload from "assets/images/icons/upload.png"
 import filtericon from 'assets/images/icons/close2.png'
-import { TextField } from '@mui/material';
+import { CircularProgress, TextField } from '@mui/material';
 import { useFormik } from 'formik'
 import * as Yup from 'Yup'
 import axios from 'axios';
@@ -32,6 +32,7 @@ interface Formdata {
 
 export default function BasicModal() {
   const [open, setOpen] = useState<boolean>(false);
+  const [Loading , setLoading] = useState<boolean>(false)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [bolbimg, setbolbimg] = useState<File>()
@@ -66,6 +67,8 @@ export default function BasicModal() {
 
     onSubmit: async (values , {resetForm}) => {
 
+      setLoading(true)
+
       try{
 
         const MOMENT = moment()
@@ -93,13 +96,15 @@ export default function BasicModal() {
         toast.success('Blog Posted')
         // setblobimg2([])
         setbolbimg(undefined)
+        setLoading(false)
         setmultimg([])
-        handleClose()
+        // handleClose()
        
       }
       catch(err){
         console.log(err)
         toast.error('Somthing error ! Try again')
+        setLoading(false)
       }
     }
   })
@@ -353,9 +358,14 @@ export default function BasicModal() {
 
             </div>
 
-            <div className="bloginput">
-              <button className='btn' type='submit' style={{ backgroundColor: "#00a9e5", color: "#ffff", border: "none", borderRadius: "5px" }}>Submit</button>
-            </div>
+           
+                         <div className="bloginput">
+                           <button className='btn' type='submit' 
+                           style={{ backgroundColor: "#00a9e5", color: "#ffff", border: "none", borderRadius: "5px" }}>
+                             {Loading ?  <CircularProgress   size="20px"/> : 'submit' }
+                             
+                             </button>
+                         </div>
           </form>
 
 
