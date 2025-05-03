@@ -69,7 +69,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/wellinit',
+    basename: '/',
   },
 );
 
