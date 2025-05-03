@@ -27,7 +27,7 @@ interface Task {
 
 const Blog_Detail = ({ id }: data) => {
 
-    const apiKey = import.meta.env.VITE_API_KEY;
+    const apiKey = "/api/blogs"
     const [Detail, setDetail] = useState<Task>()
 
     const GET_BLOG_DATA = async () => {
@@ -62,7 +62,7 @@ const Blog_Detail = ({ id }: data) => {
             <div className="container">
 
                 <div className="bg-title">
-                    <h2>{Detail?.title}</h2>
+                    <h2>{Detail?.title.toUpperCase()}</h2>
                 </div>
 
                 <div className="bgtech">

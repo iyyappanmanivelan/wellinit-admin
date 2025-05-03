@@ -15,10 +15,12 @@ import close from "assets/images/icons/close.png"
 import upload from "assets/images/icons/upload.png"
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik'
+import filtericon from 'assets/images/icons/close2.png'
 import * as Yup from 'Yup'
 import axios from 'axios';
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import NODTA from 'assets/images/nodata.avif'
 
 
 interface Task {
@@ -53,7 +55,7 @@ const UpcomingTask = () => {
   const [Blogdata, setBlogdata] = useState<Task[] | undefined>()
   const router = useNavigate()
   const [bolbimg, setbolbimg] = useState<File>()
-  const [blobimg2, setblobimg2] = useState<File[]>([])
+  // const [blobimg2, setblobimg2] = useState<File[]>([])
   const [multimg, setmultimg] = useState<string[]>([])
 
   const screenWidth = useScreenWidth()
@@ -68,7 +70,7 @@ const UpcomingTask = () => {
   const handleClose2 = () => setOpen2(false);
 
   const [bbid, setbbid] = useState<number>()
-  const apiKey = import.meta.env.VITE_API_KEY;
+  const apiKey = "/api/blogs"
 
 
 
@@ -123,7 +125,7 @@ const UpcomingTask = () => {
         resetForm()
         FETCHBLOGDATA()
         toast.success('Blog Edited Succesfully')
-        setblobimg2([])
+        // setblobimg2([])
         setbolbimg(undefined)
         setmultimg([])
         handleClose()
@@ -175,7 +177,7 @@ const UpcomingTask = () => {
     const fileimg = target.files;
     if (fileimg) {
       const main = Array.from(fileimg);
-      setblobimg2(prev => [...prev, ...main])
+      // setblobimg2(prev => [...prev, ...main])
 
       main.map(async (data) => {
         const Cloudinary = new FormData()
@@ -280,6 +282,12 @@ const UpcomingTask = () => {
   }, [])
 
 
+  const filterimg = (data : string)=>{
+    const ddd = multimg.filter(val => !val.includes(data))
+    setmultimg(ddd)
+  }
+
+
 
   return (
     // <SliderWrapper title="Blogs" SliderCard={TaskCard} data={Blogdata ?? []}  />
@@ -293,18 +301,20 @@ const UpcomingTask = () => {
           <BasicModal />
         </Stack>
 
-        <ReactSwiper slidesPerView={slidesPerView}>
+        {
+          Blogdata ? (
+            <ReactSwiper slidesPerView={slidesPerView}>
           {
             Blogdata?.map((data, i) => (
               <SwiperSlide key={i}>
 
                 <Card sx={{ userSelect: 'none' }}  >
-                  <CardMedia component="img" height="200" image={data.img ?? noimg} alt="task_today_image" />
+                  <CardMedia component="img" height="200" image={data.img ? data?.img : noimg} alt="task_today_image" />
                   <CardContent>
                     <Box mt={1.5}>
                       <Stack alignItems="center" justifyContent="space-between" position="relative">
-                        <Typography variant="subtitle1" color="text.primary" fontWeight={600}>
-                          {data.title}
+                        <Typography variant="subtitle1" color="text.primary" fontWeight={600} className='title-bg'>
+                          {data.title.toUpperCase()}
                         </Typography>
                         <div style={{ display: "flex", gap: "10px" }}>
                           <IconifyIcon icon="mingcute:edit-3-fill" fontSize="h6.fontsize" color="text.secondary" sx={{ cursor: "pointer" }} onClick={() => { modalid(data?.id) }} />
@@ -312,7 +322,7 @@ const UpcomingTask = () => {
                         </div>
                       </Stack>
 
-                      <Typography variant="subtitle2" color="text.secondary">
+                      <Typography variant="subtitle2" color="text.secondary" className='title-bg'>
                         {data.name}
                       </Typography>
                     </Box>
@@ -350,6 +360,12 @@ const UpcomingTask = () => {
             ))
           }
         </ReactSwiper>
+          ) : (
+            <div style={{textAlign:"center"}}>
+              <img src={NODTA} width="500px" height="400px" className='img-fluid'/>
+            </div>
+          )
+        }
 
       </Stack>
 
@@ -469,11 +485,11 @@ const UpcomingTask = () => {
                   <img src={upload} className='img-fluid' />
                 </div>
                 {
-                  bolbimg ? <p>Selected Image</p> : ''
+                  bolbimg || Formik.values.img ? <p>Selected Image</p> : null
                 }
                 {
-                  bolbimg ? (<div style={{ position: "relative", width: "70px", padding: "10px 0px" }}>
-                    <img src={`${URL.createObjectURL(bolbimg)}`} style={{ width: "70px", height: "70px", objectFit: "cover" }} className='img-fluid' />
+                  bolbimg || Formik.values.img ? (<div style={{ position: "relative", width: "70px", padding: "10px 0px" }}>
+                    <img src={bolbimg ? URL.createObjectURL(bolbimg) : Formik.values.img} style={{ width: "70px", height: "70px", objectFit: "cover" }} className='img-fluid' />
                   </div>) : null
                 }
               </div>
@@ -486,16 +502,19 @@ const UpcomingTask = () => {
                   <img src={upload} className='img-fluid' />
                 </div>
                 {
-                  blobimg2.length > 0 ? <p>Selected Image</p> : ''
+                  multimg.length > 0 ? <p>Selected Image</p> : ''
                 }
 
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                   {
-                    blobimg2 ? blobimg2?.map((data) => (
+                      multimg.length > 0 ? multimg.map((img) => (
                       <div style={{ position: "relative", width: "70px", padding: "10px 0px" }}>
-                        <img src={`${URL.createObjectURL(data)}`} style={{ width: "70px", height: "70px", objectFit: "cover" }} className='img-fluid' />
+                        <img src={img} style={{ width: "70px", height: "70px", objectFit: "cover" }} className='img-fluid' />
+                        <div className="filtericon" style={{cursor:"pointer"}} onClick={()=>{filterimg(img)}}>
+                          <img src={filtericon} width="20px" />
+                        </div>
                       </div>
-                    )) : ''
+                    )) : null
                   }
                 </div>
 
@@ -537,7 +556,7 @@ const UpcomingTask = () => {
             </div>
             <div className='blogdlt' style={{ display: "flex", justifyContent: "center", gap: "10px", margin: "15px 0px" }}>
               <button className='btn' style={{ background: "#00a9e5", color: "#ffff" }} onClick={() => { Confirmdelete() }} >Yes</button>
-              <button className='btn' style={{ background: "gray", color:"#ffff" }} onClick={handleClose2}>No</button>
+              <button className='btn' style={{ background: "gray", color: "#ffff" }} onClick={handleClose2}>No</button>
             </div>
           </div>
 

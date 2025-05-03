@@ -24,20 +24,20 @@ interface SigninData {
 
 
 interface UserResponse {
-  success : boolean,
-  code : number,
-  data : [],
-  message : string,
+  success: boolean,
+  code: number,
+  data: [],
+  message: string,
 }
 const Signin = () => {
   const [user, setUser] = useState<SigninData>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
-  const [error , seterror] = useState<string>()
+  const [error, seterror] = useState<string>()
 
-const AUTHURL = import.meta.env.VITE_AUTH_API_KEY;
+  const AUTHURL = "/user/user_data"
 
-  
- 
+
+
   const navigate = useNavigate()
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,35 +45,35 @@ const AUTHURL = import.meta.env.VITE_AUTH_API_KEY;
   };
 
 
- const Handlesingin_Data = async (data:SigninData) : Promise <UserResponse | null > =>{
-    const response =  await instance.get(`${AUTHURL}?email=${data?.email}&password=${data?.password}`)
+  const Handlesingin_Data = async (data: SigninData): Promise<UserResponse | null> => {
+    const response = await instance.get(`${AUTHURL}?email=${data?.email}&password=${data?.password}`)
     return response?.data
-}
+  }
 
 
-  const handleSubmit =  async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(user)
 
     Handlesingin_Data(user)
-    .then((res)=>{
-      console.log(res)
-      Redirect(res?.data?.length ?? 0)
-    })
-    .catch((err)=>{
-      console.log(err)
-      seterror('Try again later !')
+      .then((res) => {
+        console.log(res)
+        Redirect(res?.data?.length ?? 0)
+      })
+      .catch((err) => {
+        console.log(err)
+        seterror('Try again later !')
 
-    })
+      })
   };
 
 
-  const Redirect = (length : number)=>{
+  const Redirect = (length: number) => {
 
-    if(length === 1){
+    if (length === 1) {
       navigate('/')
     }
-    else{
+    else {
       seterror('Check Your Eamil or Password !')
     }
   }
@@ -196,14 +196,14 @@ const AUTHURL = import.meta.env.VITE_AUTH_API_KEY;
       {
         error ? (
           <Typography mt={5} variant="body2" color="red" align="center" letterSpacing={0.25}>
-           {error}
-        </Typography>
+            {error}
+          </Typography>
 
         ) : null
       }
 
 
-      
+
     </>
   );
 };

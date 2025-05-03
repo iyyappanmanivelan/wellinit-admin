@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import create from "assets/images/icons/create.png"
 import close from "assets/images/icons/close.png"
 import upload from "assets/images/icons/upload.png"
+import filtericon from 'assets/images/icons/close2.png'
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik'
 import * as Yup from 'Yup'
@@ -34,11 +35,11 @@ export default function BasicModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [bolbimg, setbolbimg] = useState<File>()
-  const [blobimg2, setblobimg2] = useState<File[]>([])
+  // const [blobimg2, setblobimg2] = useState<File[]>([])
 
   const [multimg , setmultimg] = useState<string[]>([])
 
-  const apiKey = import.meta.env.VITE_API_KEY;
+  const apiKey = "/api/blogs"
    
   const schema = Yup.object().shape({
     'title': Yup.string().required('Enter Title'),
@@ -90,7 +91,7 @@ export default function BasicModal() {
         console.log(values)
         resetForm()
         toast.success('Blog Posted')
-        setblobimg2([])
+        // setblobimg2([])
         setbolbimg(undefined)
         setmultimg([])
         handleClose()
@@ -144,7 +145,7 @@ export default function BasicModal() {
     const fileimg = target.files;
     if (fileimg) {
       const main = Array.from(fileimg);
-      setblobimg2(prev => [...prev , ...main])
+      // setblobimg2(prev => [...prev , ...main])
 
       main.map(async (data) => {
         const Cloudinary = new FormData()
@@ -167,6 +168,12 @@ export default function BasicModal() {
       })
     }
   };
+
+  const filterimg = (data : string)=>{
+    const ddd = multimg.filter(val => !val.includes(data))
+    setmultimg(ddd)
+  }
+
 
   const submitting = Formik.isSubmitting;
 
@@ -328,17 +335,20 @@ export default function BasicModal() {
                 <img src={upload} className='img-fluid' />
               </div>
               {
-                blobimg2.length > 0 ? <p>Selected Image</p> : ''
+                multimg.length > 0 ? <p>Selected Image</p> : ''
               }
 
               <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                {
-                  blobimg2 ? blobimg2?.map((data) => (
-                    <div style={{ position: "relative", width: "70px", padding: "10px 0px" }}>
-                      <img src={`${URL.createObjectURL(data)}`} style={{ width: "70px", height: "70px", objectFit: "cover" }} className='img-fluid' />
-                    </div>
-                  )) : ''
-                }
+              {
+                      multimg.length > 0 ? multimg.map((img) => (
+                      <div style={{ position: "relative", width: "70px", padding: "10px 0px" }}>
+                        <img src={img} style={{ width: "70px", height: "70px", objectFit: "cover" }} className='img-fluid' />
+                        <div className="filtericon" style={{cursor:"pointer"}} onClick={()=>{filterimg(img)}}>
+                          <img src={filtericon} width="20px" />
+                        </div>
+                      </div>
+                    )) : null
+                  }
               </div>
 
             </div>

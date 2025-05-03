@@ -52,8 +52,7 @@ const Topbar = ({ isClosing, mobileOpen, setMobileOpen }: TopbarProps) => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            onClick={handleDrawerToggle}
-          >
+            onClick={handleDrawerToggle}>
             <IconifyIcon icon="clarity:menu-line" />
           </IconButton>
         </Toolbar>
