@@ -50,7 +50,7 @@ interface Formdata {
 }
 
 
-const UpcomingTask = () => {
+const MangeblogsComponent = () => {
 
   const [Blogdata, setBlogdata] = useState<Task[] | undefined>()
   const router = useNavigate()
@@ -72,8 +72,6 @@ const UpcomingTask = () => {
 
   const [bbid, setbbid] = useState<number>()
   const apiKey = "/api/blogs"
-
-
 
   const schema = Yup.object().shape({
     'title': Yup.string().required('Enter Title'),
@@ -131,9 +129,7 @@ const UpcomingTask = () => {
         // setbolbimg(undefined)
         // setmultimg([])
         // handleClose2()
-        
-
-
+    
       }
       catch (err) {
         console.log(err)
@@ -589,4 +585,4 @@ const UpcomingTask = () => {
   )
 };
 
-export default UpcomingTask;
+export default MangeblogsComponent;

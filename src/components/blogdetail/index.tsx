@@ -22,12 +22,10 @@ interface Task {
     relatedimg: []
     mm_dd_yy: string,
     time: string
-
 }
 
 
-
-const Blog_Detail = ({ id }: data) => {
+const BlogdetailComponent = ({ id }: data) => {
 
     const apiKey = "/api/blogs"
     const [Detail, setDetail] = useState<Task>()
@@ -63,31 +61,31 @@ const Blog_Detail = ({ id }: data) => {
 
 
     const ACCESPAGE = () => {
-  
-      const value: string | null = localStorage.getItem('Singin_Data')
-      const Maindata: { role: string }[] | [] =  value ? JSON.parse(value) : ''
-  
-  
-      if(Maindata.length > 0){
-        if(Maindata[0]?.role != 'admin'){
-          router(paths.signin)
+
+        const value: string | null = localStorage.getItem('Singin_Data')
+        const Maindata: { role: string }[] | [] = value ? JSON.parse(value) : ''
+
+
+        if (Maindata.length > 0) {
+            if (Maindata[0]?.role != 'admin') {
+                router(paths.signin)
+            }
         }
-        else{
-          router(`pages/blogdetail/${id}`)
+
+        else {
+            router(paths.signin)
         }
-      }
-      
-      else{
-        router(paths.signin)
-      }
-      
-  
+
+
     }
-  
-  
-    useEffect(()=>{
-  ACCESPAGE()
-    },[])
+
+
+    useEffect(() => {
+        ACCESPAGE()
+    }, [])
+
+
+    console.log('detailpage')
 
 
     return (
@@ -123,9 +121,9 @@ const Blog_Detail = ({ id }: data) => {
                 </div>
 
                 <div className="relateimg">
-                    <ReactSwiper 
-                    slidesPerView={slidesPerView}
-                    
+                    <ReactSwiper
+                        slidesPerView={slidesPerView}
+
                     >
                         <Swiper>
                             {
@@ -156,4 +154,4 @@ const Blog_Detail = ({ id }: data) => {
     )
 }
 
-export default Blog_Detail;
+export default BlogdetailComponent;

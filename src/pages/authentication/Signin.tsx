@@ -22,16 +22,12 @@ interface SigninData {
 }
 
 
-
 interface UserResponse {
   success: boolean,
   code: number,
   data: [],
   message: string,
 }
-
-
-
 
 
 const Signin = () => {

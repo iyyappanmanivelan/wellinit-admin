@@ -1,5 +1,5 @@
+import BlogdetailComponent from "components/blogdetail";
 import {useParams } from "react-router-dom";
-import Blog_Detail from "components/sections/blogdetail/index"
 
 
 const Blogdetail = () => {
@@ -11,12 +11,10 @@ const Blogdetail = () => {
     console.log('rkgng', pramas?.id)
 
 
+
     return (
 
-
-        <Blog_Detail id={Blog_id} />
-
-
+        <BlogdetailComponent id={Blog_id} />
     )
 
 

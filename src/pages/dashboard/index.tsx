@@ -29,16 +29,12 @@ const Dashboard = () => {
       if(Maindata[0]?.role != 'admin'){
         router(paths.signin)
       }
-      else{
-        router('/')
-      }
     }
     
     else{
       router(paths.signin)
     }
     
-
   }
 
 
@@ -61,14 +57,6 @@ const Dashboard = () => {
           <RunningTask />
           <Activity />
         </Stack>
-
-        {/* <MonthlyMentors /> */}
-        {/* <UpcomingTask /> */}
-        {/* <TaskOverview /> */}
-
-        {/* <Box display={{ xs: 'none', md: 'block' }}>
-          <Footer />
-        </Box> */}
       </Stack>
 
       <Box
