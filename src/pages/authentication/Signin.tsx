@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import IconifyIcon from 'components/base/IconifyIcon';
-import paths from 'routes/paths';
+// import paths from 'routes/paths';
 import { instance } from 'config/config';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +29,14 @@ interface UserResponse {
   data: [],
   message: string,
 }
+
+
+
+
+
 const Signin = () => {
+
+
   const [user, setUser] = useState<SigninData>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, seterror] = useState<string>()
@@ -57,8 +64,8 @@ const Signin = () => {
 
     Handlesingin_Data(user)
       .then((res) => {
-        console.log(res)
         Redirect(res?.data?.length ?? 0)
+        localStorage.setItem('Singin_Data' , JSON.stringify(res?.data))
       })
       .catch((err) => {
         console.log(err)
@@ -189,9 +196,9 @@ const Signin = () => {
         </Button>
       </Stack>
 
-      <Typography mt={5} variant="body2" color="text.secondary" align="center" letterSpacing={0.25}>
+      {/* <Typography mt={5} variant="body2" color="text.secondary" align="center" letterSpacing={0.25}>
         Don't have an account? <Link href={paths.signup}>Signup</Link>
-      </Typography>
+      </Typography> */}
 
       {
         error ? (

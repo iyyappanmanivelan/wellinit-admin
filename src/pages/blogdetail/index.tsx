@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import Blog_Detail from "components/sections/blogdetail/index"
+
 
 const Blogdetail = () => {
 
@@ -8,6 +9,7 @@ const Blogdetail = () => {
     const Blog_id = pramas?.id
 
     console.log('rkgng', pramas?.id)
+
 
     return (
 

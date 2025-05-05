@@ -8,8 +8,48 @@ import WeekCalendar from 'components/sections/dashboard/week-calendar';
 // import TaskOverview from 'components/sections/dashboard/task-overview';
 // import MonthlyMentors from 'components/sections/dashboard/monthly-mentors';
 import Footer from 'components/common/Footer';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import paths from 'routes/paths';
 
 const Dashboard = () => {
+
+
+
+  const router = useNavigate()
+
+
+  const ACCESPAGE = () => {
+
+    const value: string | null = localStorage.getItem('Singin_Data')
+    const Maindata: { role: string }[] | [] =  value ? JSON.parse(value) : ''
+
+
+    if(Maindata.length > 0){
+      if(Maindata[0]?.role != 'admin'){
+        router(paths.signin)
+      }
+      else{
+        router('/')
+      }
+    }
+    
+    else{
+      router(paths.signin)
+    }
+    
+
+  }
+
+
+  useEffect(() => {
+
+    ACCESPAGE()
+
+  }, [])
+
+
+
   return (
     <Stack direction={{ xs: 'column', md: 'row' }}>
       <Stack p={3.5} spacing={3.5} direction="column" width={{ xs: 1, md: 'calc(100% - 460px)' }}>
