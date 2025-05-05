@@ -2,14 +2,14 @@ import sitemap from 'routes/sitemap';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import CollapseListItem from './list-items/CollapseListItem';
 import ListItem from './list-items/ListItem';
 import Image from 'components/base/Image';
 import LogoImg from 'assets/images/wellinit_logo.png';
-import FooterImg from 'assets/images/helpCenter.png';
+// import FooterImg from 'assets/images/helpCenter.png';
 
 const DrawerItems = () => {
   return (
@@ -41,7 +41,7 @@ const DrawerItems = () => {
         )}
       </List>
 
-      <Stack
+      {/* <Stack
         position="relative"
         mt="auto"
         mb={4}
@@ -85,7 +85,7 @@ const DrawerItems = () => {
             Go To Help Center
           </Button>
         </Stack>
-      </Stack>
+      </Stack> */}
     </>
   );
 };

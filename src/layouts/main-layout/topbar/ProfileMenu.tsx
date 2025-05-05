@@ -23,26 +23,26 @@ const menuItems: MenuItems[] = [
     title: 'View Profile',
     icon: 'hugeicons:user-circle-02',
   },
-  {
-    id: 2,
-    title: 'Account Settings',
-    icon: 'hugeicons:account-setting-02',
-  },
-  {
-    id: 3,
-    title: 'Notifications',
-    icon: 'solar:bell-outline',
-  },
-  {
-    id: 4,
-    title: 'Switch Account',
-    icon: 'hugeicons:user-switch',
-  },
-  {
-    id: 5,
-    title: 'Help Center',
-    icon: 'carbon:help',
-  },
+  // {
+  //   id: 2,
+  //   title: 'Account Settings',
+  //   icon: 'hugeicons:account-setting-02',
+  // },
+  // {
+  //   id: 3,
+  //   title: 'Notifications',
+  //   icon: 'solar:bell-outline',
+  // },
+  // {
+  //   id: 4,
+  //   title: 'Switch Account',
+  //   icon: 'hugeicons:user-switch',
+  // },
+  // {
+  //   id: 5,
+  //   title: 'Help Center',
+  //   icon: 'carbon:help',
+  // },
   {
     id: 6,
     title: 'Logout',

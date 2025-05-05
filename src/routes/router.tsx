@@ -6,13 +6,12 @@ import MainLayout from 'layouts/main-layout';
 import AuthLayout from 'layouts/auth-layout';
 import Splash from 'components/loader/Splash';
 import PageLoader from 'components/loader/PageLoader';
-import ManageBlogs from 'pages/manageblogs';
-import Blogdetail from 'pages/blogdetail';
+import ManageBlogs from 'pages/manageBlogs';
+import Blogdetail from 'pages/blogDetail';
 
 const App = lazy(() => import('App'));
 const Dashboard = lazy(() => import('pages/dashboard'));
 const Signin = lazy(() => import('pages/authentication/Signin'));
-const Signup = lazy(() => import('pages/authentication/Signup'));
 
 const router = createBrowserRouter(
   [
@@ -39,12 +38,12 @@ const router = createBrowserRouter(
             },
             {
               path: paths.manageblogs,
-              element : <ManageBlogs/>
+              element: <ManageBlogs />,
             },
             {
-              path : paths.blogdetail,
-              element : <Blogdetail/>
-            }
+              path: paths.blogdetail,
+              element: <Blogdetail />,
+            },
           ],
         },
         {
@@ -58,10 +57,6 @@ const router = createBrowserRouter(
             {
               path: paths.signin,
               element: <Signin />,
-            },
-            {
-              path: paths.signup,
-              element: <Signup />,
             },
           ],
         },

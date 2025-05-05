@@ -5,9 +5,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import IconifyIcon from 'components/base/IconifyIcon';
+import { useLocation } from 'react-router-dom';
 
 const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
+  const location = useLocation();
   const [open, setOpen] = useState(false);
+  const currentPath = location.pathname.replace('/pages/', '');
+  const comingPath = path?.replace('/pages/', '');
+  const isPathMatched = currentPath === comingPath;
 
   const handleClick = () => {
     setOpen(!open);
@@ -18,7 +23,7 @@ const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
       component={Link}
       href={path}
       onClick={handleClick}
-      sx={{ mb: 2.5, bgcolor: active ? '#00a9e5' : null}}
+      sx={{ mb: 2.5, bgcolor: (active && isPathMatched) ? '#00a9e5' : null}}
     >
       <ListItemIcon>
         {icon && (
@@ -26,7 +31,7 @@ const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
             icon={icon}
             fontSize="h4.fontSize"
             sx={{
-              color: active ? 'info.lighter' : 'text.primary',
+              color: (active && isPathMatched) ? '#ffffff' : null,
             }}
           />
         )}
@@ -35,7 +40,7 @@ const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
         primary={subheader}
         sx={{
           '& .MuiListItemText-primary': {
-            color: active ? 'info.lighter' : 'text.primary',
+            color: (active && isPathMatched) ? '#ffffff' : null,
           },
         }}
       />

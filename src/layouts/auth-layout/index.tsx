@@ -22,20 +22,19 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
       width={1}
       minHeight="100vh"
       position="relative"
+      bgcolor="#00A9E5"
     >
-      {/* <ButtonBase
-        component={Link}
-        href="/"
-        disableRipple
-        sx={{ position: 'absolute', top: 24, left: 24 }}
+      <Paper
+        sx={{
+          px: 2,
+          py: 3,
+          width: 1,
+          maxWidth: 450,
+          boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+        }}
       >
-        <Image src={LogoImg} alt="logo" height={36} width={36} sx={{ mr: 1 }} />
-        <Typography variant="h4" color="text.primary" letterSpacing={1}>
-          Wellinit
-         Wellinit
-        </Typography>
-      </ButtonBase> */}
-      <Paper sx={{ px: 2, py: 3, width: 1, maxWidth: 380 }}>{children}</Paper>
+        {children}
+      </Paper>
     </Stack>
   );
 };

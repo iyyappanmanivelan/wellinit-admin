@@ -28,10 +28,15 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
+<<<<<<< Updated upstream
+    id: 'blogs',
+=======
     id: 'task',
-    subheader: 'Manage Blog Post',
+>>>>>>> Stashed changes
+    subheader: 'Manage Blog',
     path: paths.manageblogs,
     icon: 'hugeicons:book-open-01',
+    active: true,
   },
   // {
   //   id: 'mentors',
@@ -51,26 +56,6 @@ const sitemap: MenuItem[] = [
   //   path: '#!',
   //   icon: 'hugeicons:settings-01',
   // },
-  {
-    id: 'authentication',
-    subheader: 'Authentication',
-    icon: 'mynaui:lock-password',
-    active: true,
-    items: [
-      {
-        name: 'Sign In',
-        pathName: 'signin',
-        icon: '',
-        path: paths.signin,
-      },
-      // {
-      //   name: 'Sign Up',
-      //   pathName: 'signup',
-      //   icon: '',
-      //   path: paths.signup,
-      // },
-    ],
-  },
 ];
 
 export default sitemap;

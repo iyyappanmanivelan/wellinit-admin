@@ -3,48 +3,30 @@ import Stack from '@mui/material/Stack';
 import Activity from 'components/sections/dashboard/activity';
 import TaskToday from 'components/sections/dashboard/task-today';
 import RunningTask from 'components/sections/dashboard/running-task';
-// import UpcomingTask from 'components/sections/dashboard/upcoming-task';
 import WeekCalendar from 'components/sections/dashboard/week-calendar';
-// import TaskOverview from 'components/sections/dashboard/task-overview';
-// import MonthlyMentors from 'components/sections/dashboard/monthly-mentors';
 import Footer from 'components/common/Footer';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from 'routes/paths';
 
 const Dashboard = () => {
-
-
-
-  const router = useNavigate()
-
-
+  const router = useNavigate();
   const ACCESPAGE = () => {
+    const value: string | null = localStorage.getItem('Singin_Data');
+    const Maindata: { role: string }[] | [] = value ? JSON.parse(value) : '';
 
-    const value: string | null = localStorage.getItem('Singin_Data')
-    const Maindata: { role: string }[] | [] =  value ? JSON.parse(value) : ''
-
-
-    if(Maindata.length > 0){
-      if(Maindata[0]?.role != 'admin'){
-        router(paths.signin)
+    if (Maindata.length > 0) {
+      if (Maindata[0]?.role != 'admin') {
+        router(paths.signin);
       }
+    } else {
+      router(paths.signin);
     }
-    
-    else{
-      router(paths.signin)
-    }
-    
-  }
-
+  };
 
   useEffect(() => {
-
-    ACCESPAGE()
-
-  }, [])
-
-
+    ACCESPAGE();
+  }, []);
 
   return (
     <Stack direction={{ xs: 'column', md: 'row' }}>
