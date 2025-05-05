@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar3 } from 'data/images';
 import Menu from '@mui/material/Menu';
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconifyIcon from 'components/base/IconifyIcon';
+import { useNavigate } from 'react-router-dom';
 
 interface MenuItems {
   id: number;
@@ -53,6 +54,7 @@ const menuItems: MenuItems[] = [
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useNavigate()
 
   const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -61,6 +63,14 @@ const ProfileMenu = () => {
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const value: string | null = localStorage.getItem('Singin_Data')
+  const Maindata: { role: string  , email : string }[] | [] = value ? JSON.parse(value) : ''
+
+  const Logout =()=>{
+     router('/authentication/signin')
+     localStorage.removeItem('Singin_Data')
+  }
 
   return (
     <>
@@ -102,10 +112,14 @@ const ProfileMenu = () => {
             <Avatar src={Avatar3} sx={{ mr: 1, height: 42, width: 42 }} />
             <Stack direction="column">
               <Typography variant="body2" color="text.primary" fontWeight={600}>
-                Alex Stanton
+                {
+                  Maindata[0] ? Maindata[0]?.role  : ''
+                }
               </Typography>
               <Typography variant="caption" color="text.secondary" fontWeight={400}>
-                alex@example.com
+               {
+                Maindata[0] ? Maindata[0]?.email : ''
+               }
               </Typography>
             </Stack>
           </MenuItem>
@@ -116,7 +130,8 @@ const ProfileMenu = () => {
         <Box p={1}>
           {menuItems.map((item) => {
             return (
-              <MenuItem key={item.id} onClick={handleProfileMenuClose} sx={{ py: 1 }}>
+            <div onClick={Logout}>
+                <MenuItem key={item.id} onClick={handleProfileMenuClose} sx={{ py: 1 }}>
                 <ListItemIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 'h5.fontSize' }}>
                   <IconifyIcon icon={item.icon} />
                 </ListItemIcon>
@@ -124,6 +139,7 @@ const ProfileMenu = () => {
                   {item.title}
                 </Typography>
               </MenuItem>
+            </div>
             );
           })}
         </Box>

@@ -28,11 +28,7 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
-<<<<<<< Updated upstream
     id: 'blogs',
-=======
-    id: 'task',
->>>>>>> Stashed changes
     subheader: 'Manage Blog',
     path: paths.manageblogs,
     icon: 'hugeicons:book-open-01',

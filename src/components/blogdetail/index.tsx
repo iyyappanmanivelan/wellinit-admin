@@ -3,8 +3,6 @@ import ReactSwiper from "components/base/ReactSwiper";
 import { useScreenWidth } from "components/base/usescreenwidth";
 import { instance } from "config/config";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import paths from "routes/paths";
 import { SwiperSlide, Swiper } from "swiper/react";
 
 
@@ -57,32 +55,6 @@ const BlogdetailComponent = ({ id }: data) => {
 
 
 
-    const router = useNavigate()
-
-
-    const ACCESPAGE = () => {
-
-        const value: string | null = localStorage.getItem('Singin_Data')
-        const Maindata: { role: string }[] | [] = value ? JSON.parse(value) : ''
-
-
-        if (Maindata.length > 0) {
-            if (Maindata[0]?.role != 'admin') {
-                router(paths.signin)
-            }
-        }
-
-        else {
-            router(paths.signin)
-        }
-
-
-    }
-
-
-    useEffect(() => {
-        ACCESPAGE()
-    }, [])
 
 
     console.log('detailpage')
