@@ -16,6 +16,7 @@ interface MenuItems {
   id: number;
   title: string;
   icon: string;
+  link : string;
 }
 
 const menuItems: MenuItems[] = [
@@ -23,6 +24,7 @@ const menuItems: MenuItems[] = [
     id: 1,
     title: 'View Profile',
     icon: 'hugeicons:user-circle-02',
+    link : '/'
   },
   // {
   //   id: 2,
@@ -45,9 +47,10 @@ const menuItems: MenuItems[] = [
   //   icon: 'carbon:help',
   // },
   {
-    id: 6,
+    id: 2,
     title: 'Logout',
     icon: 'hugeicons:logout-03',
+    link : '/authentication/signin'
   },
 ];
 
@@ -67,10 +70,12 @@ const ProfileMenu = () => {
   const value: string | null = localStorage.getItem('Singin_Data')
   const Maindata: { role: string  , email : string }[] | [] = value ? JSON.parse(value) : ''
 
-  const Logout =()=>{
-     router('/authentication/signin')
-     localStorage.removeItem('Singin_Data')
+  const Logout = ()=>{
+
+    localStorage.removeItem('Singin_Data');
+
   }
+
 
   return (
     <>
@@ -128,9 +133,9 @@ const ProfileMenu = () => {
         <Divider sx={{ my: 0 }} />
 
         <Box p={1}>
-          {menuItems.map((item) => {
+          {menuItems.map((item , i) => {
             return (
-            <div onClick={Logout}>
+            <div key={i}  onClick={()=>{router(item?.link) ; item.id === 2 ?  Logout() : ''}} >
                 <MenuItem key={item.id} onClick={handleProfileMenuClose} sx={{ py: 1 }}>
                 <ListItemIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 'h5.fontSize' }}>
                   <IconifyIcon icon={item.icon} />

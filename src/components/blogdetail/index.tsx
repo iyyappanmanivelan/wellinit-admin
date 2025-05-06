@@ -88,8 +88,10 @@ const BlogdetailComponent = ({ id }: data) => {
                     <img src={Detail?.img} className="img-fluid" />
                 </div>
                 <div className="bgcnt" >
+                    <p>{Detail?.comment}</p>
+                </div>
+                <div className="bgcnt" >
                     <p>{Detail?.content}</p>
-
                 </div>
 
                 <div className="relateimg">

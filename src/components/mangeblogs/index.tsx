@@ -22,18 +22,18 @@ import IconifyIcon from 'components/base/IconifyIcon';
 import { useNavigate } from 'react-router-dom';
 import { useScreenWidth } from 'components/base/usescreenwidth';
 import BasicModal from 'components/common/Modal';
-import close from 'assets/images/icons/close.png';
 import upload from 'assets/images/icons/upload.png';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import filtericon from 'assets/images/icons/close2.png';
 import * as Yup from 'Yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import moment from 'moment';
 import NODTA from 'assets/images/nodata.svg';
+import { Popup } from 'components/common/Popup';
 
-interface Task {
+interface Blogdata {
   id: number;
   title: string;
   name: string;
@@ -57,16 +57,16 @@ interface Formdata {
 }
 
 const MangeblogsComponent = () => {
-  const [Blogdata, setBlogdata] = useState<Task[] | undefined>();
+  const [Blogdata, setBlogdata] = useState<Blogdata[] | undefined>();
   const router = useNavigate();
   const [bolbimg, setbolbimg] = useState<File>();
-  // const [blobimg2, setblobimg2] = useState<File[]>([])
   const [multimg, setmultimg] = useState<string[]>([]);
 
   const screenWidth = useScreenWidth();
   const slidesPerView = screenWidth >= 1024 ? 3 : screenWidth >= 768 ? 2 : 1;
   const [Loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -122,12 +122,10 @@ const MangeblogsComponent = () => {
         const response = await instance.put(`${apiKey}/${bbid ? bbid : null}`, data);
         console.log('vfv', response);
         setLoading(false);
-        // resetForm()
         FETCHBLOGDATA();
         toast.success('Blog Edited Succesfully');
-        // setbolbimg(undefined)
-        // setmultimg([])
-        // handleClose2()
+        handleClose();
+
       } catch (err) {
         console.log(err);
         toast.error('Somthing error ! Try again');
@@ -191,7 +189,7 @@ const MangeblogsComponent = () => {
     }
   };
 
-  const handelbolg_data = async (): Promise<Task[]> => {
+  const handelbolg_data = async (): Promise<Blogdata[]> => {
     const response = await instance.get(`${apiKey}`);
     return response?.data?.data;
   };
@@ -206,7 +204,7 @@ const MangeblogsComponent = () => {
       });
   };
 
-  const handelSingleblog_data = async (id: number): Promise<Task> => {
+  const handelSingleblog_data = async (id: number): Promise<Blogdata> => {
     const response = await instance.get(`${apiKey}/${id ? id : null}`);
     return response?.data?.data;
   };
@@ -276,7 +274,6 @@ const MangeblogsComponent = () => {
   };
 
   return (
-    // <SliderWrapper title="Blogs" SliderCard={TaskCard} data={Blogdata ?? []}  />
 
     <>
       <Stack direction="column" spacing={1.75} width={1}>
@@ -286,6 +283,7 @@ const MangeblogsComponent = () => {
         </Stack>
 
         {Blogdata ? (
+
           <ReactSwiper slidesPerView={slidesPerView}>
             {Blogdata?.map((data, i) => (
               <SwiperSlide key={i}>
@@ -387,240 +385,195 @@ const MangeblogsComponent = () => {
         )}
       </Stack>
 
-      <div>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            sx={{
-              borderRadius: '20px',
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '550px',
-              backgroundColor: 'background.paper',
-              boxShadow: 24,
-              padding: 4,
-            }}
-          >
+      <Popup open={open} onClose={handleClose}  >
+
+        <Typography fontSize="1.5rem" margin="5px 0px" fontWeight="600">Edit Blogs</Typography>
+        <form onSubmit={Formik.handleSubmit} style={{ overflowY: 'scroll', height: '450px' }}>
+          <div className="bloginput">
+            <label>Name</label>
+            <TextField
+              id="name"
+              type="text"
+              style={{ border: '2px solid #000', borderRadius: '5px', marginTop: '5px' }}
+              variant="filled"
+              placeholder="Enter Blog Name"
+              {...Formik.getFieldProps('name')}
+              fullWidth
+            // autoFocus
+            />
+            {Formik.touched.name && Formik.errors.name ? (
+              <span className="error">{Formik.errors.name}</span>
+            ) : null}
+          </div>
+          <div className="bloginput">
+            <label>Title</label>
+            <TextField
+              id="title"
+              type="text"
+              style={{ border: '2px solid #000', borderRadius: '5px', marginTop: '5px' }}
+              variant="filled"
+              placeholder="Enter Blog Title"
+              {...Formik.getFieldProps('title')}
+              fullWidth
+            // autoFocus
+            />
+            {Formik.touched.title && Formik.errors.title ? (
+              <span className="error">{Formik.errors.title}</span>
+            ) : null}
+          </div>
+
+          <div className="bloginput">
+            <label>Content</label>
+            <textarea
+              aria-label="minimum height"
+              id="content"
+              rows={6}
+              {...Formik.getFieldProps('content')}
+              placeholder="Enter Blog Content"
+              style={{
+                border: '2px solid #000',
+                borderRadius: '5px',
+                width: '100%',
+                padding: '20px',
+                marginTop: '5px',
+                font: 'inherit',
+              }}
+            />
+            {Formik.touched.content && Formik.errors.content ? (
+              <span className="error">{Formik.errors.content}</span>
+            ) : null}
+          </div>
+
+          <div className="bloginput">
+            <label>Comment</label>
+            <textarea
+              aria-label="minimum height"
+              rows={4}
+              id="comment"
+              {...Formik.getFieldProps('comment')}
+              placeholder="Enter Comment"
+              style={{
+                border: '2px solid #000',
+                borderRadius: '5px',
+                width: '100%',
+                padding: '20px',
+                marginTop: '5px',
+                font: 'inherit',
+              }}
+            />
+            {Formik.touched.comment && Formik.errors.comment ? (
+              <span className="error">{Formik.errors.comment}</span>
+            ) : null}
+          </div>
+
+          <input
+            id="file"
+            name="file"
+            type="file"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+
+          <input
+            id="file2"
+            name="file"
+            type="file"
+            multiple
+            onChange={handleFileChange2}
+            style={{ display: 'none' }}
+          />
+
+          <div className="bloginput">
+            <label>Choose Image</label>
+
             <div
-              className="blog-head"
-              style={{ display: 'flex', justifyContent: 'end', cursor: 'pointer' }}
+              className="blogimg"
+              style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
+              onClick={() => {
+                document.getElementById('file')?.click();
+              }}
             >
-              <img src={close} className="img-fluid" onClick={handleClose} />
+              <p>Upload</p>
+              <img src={upload} className="img-fluid" />
             </div>
-
-            <h3 style={{ margin: '10px 0px' }}> Edit and Publish Your Health Expertise</h3>
-
-            <form onSubmit={Formik.handleSubmit} style={{ overflowY: 'scroll', height: '450px' }}>
-              <div className="bloginput">
-                <label>Name</label>
-                <TextField
-                  id="name"
-                  type="text"
-                  style={{ border: '2px solid #00a9e5', borderRadius: '10px', marginTop: '5px' }}
-                  variant="filled"
-                  placeholder="Enter Blog Name"
-                  {...Formik.getFieldProps('name')}
-                  fullWidth
-                  // autoFocus
+            {bolbimg || Formik.values.img ? <p style={{ margin: "5px 0px" }}>Selected Image</p> : null}
+            {bolbimg || Formik.values.img ? (
+              <div className='showimg'>
+                <img
+                  src={bolbimg ? URL.createObjectURL(bolbimg) : Formik.values.img}
+                  style={{ width: '70px', height: '70px', objectFit: 'cover' }}
+                  className="img-fluid"
                 />
-                {Formik.touched.name && Formik.errors.name ? (
-                  <span className="error">{Formik.errors.name}</span>
-                ) : null}
-              </div>
-              <div className="bloginput">
-                <label>Title</label>
-                <TextField
-                  id="title"
-                  type="text"
-                  style={{ border: '2px solid #00a9e5', borderRadius: '10px', marginTop: '5px' }}
-                  variant="filled"
-                  placeholder="Enter Blog Title"
-                  {...Formik.getFieldProps('title')}
-                  fullWidth
-                  // autoFocus
-                />
-                {Formik.touched.title && Formik.errors.title ? (
-                  <span className="error">{Formik.errors.title}</span>
-                ) : null}
               </div>
 
-              <div className="bloginput">
-                <label>Content</label>
-                <textarea
-                  aria-label="minimum height"
-                  id="content"
-                  rows={6}
-                  {...Formik.getFieldProps('content')}
-                  placeholder="Enter Blog Content"
-                  style={{
-                    border: '2px solid #00a9e5',
-                    borderRadius: '10px',
-                    width: '100%',
-                    padding: '20px',
-                    marginTop: '5px',
-                    font: 'inherit',
-                  }}
-                />
-                {Formik.touched.content && Formik.errors.content ? (
-                  <span className="error">{Formik.errors.content}</span>
-                ) : null}
-              </div>
+            ) : null}
+          </div>
 
-              <div className="bloginput">
-                <label>Comment</label>
-                <textarea
-                  aria-label="minimum height"
-                  rows={4}
-                  id="comment"
-                  {...Formik.getFieldProps('comment')}
-                  placeholder="Enter Comment"
-                  style={{
-                    border: '2px solid #00a9e5',
-                    borderRadius: '10px',
-                    width: '100%',
-                    padding: '20px',
-                    marginTop: '5px',
-                    font: 'inherit',
-                  }}
-                />
-                {Formik.touched.comment && Formik.errors.comment ? (
-                  <span className="error">{Formik.errors.comment}</span>
-                ) : null}
-              </div>
+          <div className="bloginput">
+            <label>Choose Related Image</label>
 
-              <input
-                id="file"
-                name="file"
-                type="file"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-              />
+            <div
+              className="blogimg"
+              style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
+              onClick={() => {
+                document.getElementById('file2')?.click();
+              }}
+            >
+              <p>Upload</p>
+              <img src={upload} className="img-fluid" />
+            </div>
+            {multimg.length > 0 ? <p style={{ margin: "5px 0px" }}>Selected Image</p> : ''}
 
-              <input
-                id="file2"
-                name="file"
-                type="file"
-                multiple
-                onChange={handleFileChange2}
-                style={{ display: 'none' }}
-              />
-
-              <div className="bloginput">
-                <label>Choose Image</label>
-
-                <div
-                  className="blogimg"
-                  style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
-                  onClick={() => {
-                    document.getElementById('file')?.click();
-                  }}
-                >
-                  <p>Upload</p>
-                  <img src={upload} className="img-fluid" />
-                </div>
-                {bolbimg || Formik.values.img ? <p>Selected Image</p> : null}
-                {bolbimg || Formik.values.img ? (
-                  <div style={{ position: 'relative', width: '70px', padding: '10px 0px' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {multimg.length > 0
+                ? multimg.map((img) => (
+                  <div className='showimg' style={{ position: "relative" }}>
                     <img
-                      src={bolbimg ? URL.createObjectURL(bolbimg) : Formik.values.img}
-                      style={{ width: '70px', height: '70px', objectFit: 'cover' }}
+                      src={img}
+
                       className="img-fluid"
                     />
+                    <div
+                      className="filtericon"
+                      style={{ cursor: 'pointer', position: "absolute", top: "0px", right: "0px" }}
+                      onClick={() => {
+                        filterimg(img);
+                      }}
+                    >
+                      <img src={filtericon} />
+                    </div>
                   </div>
-                ) : null}
-              </div>
+                ))
+                : null}
+            </div>
+          </div>
 
-              <div className="bloginput">
-                <label>Choose Related Image</label>
+          <div className="bloginput">
+            <button
+              className="btn"
+              type="submit"
+              style={{
+                backgroundColor: '#00a9e5',
+                color: '#ffff',
+                border: 'none',
+                borderRadius: '5px',
+              }}
+            >
+              {Loading ? <CircularProgress color="secondary" size="20px" /> : 'Submit'}
+            </button>
+          </div>
+        </form>
+      </Popup>
 
-                <div
-                  className="blogimg"
-                  style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
-                  onClick={() => {
-                    document.getElementById('file2')?.click();
-                  }}
-                >
-                  <p>Upload</p>
-                  <img src={upload} className="img-fluid" />
-                </div>
-                {multimg.length > 0 ? <p>Selected Image</p> : ''}
+      <Popup open={open2} onClose={handleClose2}  >
 
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  {multimg.length > 0
-                    ? multimg.map((img) => (
-                        <div style={{ position: 'relative', width: '70px', padding: '10px 0px' }}>
-                          <img
-                            src={img}
-                            style={{ width: '70px', height: '70px', objectFit: 'cover' }}
-                            className="img-fluid"
-                          />
-                          <div
-                            className="filtericon"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              filterimg(img);
-                            }}
-                          >
-                            <img src={filtericon} width="20px" />
-                          </div>
-                        </div>
-                      ))
-                    : null}
-                </div>
-              </div>
-
-              <div className="bloginput">
-                <button
-                  className="btn"
-                  type="submit"
-                  style={{
-                    backgroundColor: '#00a9e5',
-                    color: '#ffff',
-                    border: 'none',
-                    borderRadius: '5px',
-                  }}
-                >
-                  {Loading ? <CircularProgress color="secondary" size="20px" /> : 'submit'}
-                </button>
-              </div>
-            </form>
-          </Box>
-        </Modal>
-      </div>
-
-      <Modal
-        open={open2}
-        onClose={handleClose2}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box
-          sx={{
-            borderRadius: '10px',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '300px',
-            backgroundColor: 'background.paper',
-            border: 'none',
-            boxShadow: 24,
-            padding: 4,
-          }}
-        >
-          <div>
+      <div>
             <div className="blog-head" style={{ textAlign: 'center' }}>
-              <h3>Are You Sure ?</h3>
+              <h3>Are you sure ?</h3>
             </div>
             <div
               className="blogdlt"
-              style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '15px 0px' }}
+              style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '30px 0px' }}
             >
               <button
                 className="btn"
@@ -640,8 +593,10 @@ const MangeblogsComponent = () => {
               </button>
             </div>
           </div>
-        </Box>
-      </Modal>
+      </Popup>
+
+
+      <ToastContainer position='top-center'/>
     </>
   );
 };
