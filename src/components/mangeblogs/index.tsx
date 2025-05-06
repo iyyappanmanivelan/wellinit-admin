@@ -11,7 +11,7 @@ import {
   CardContent,
   CardMedia,
   CircularProgress,
-  Modal,
+  // Modal,
   Stack,
   Typography,
 } from '@mui/material';

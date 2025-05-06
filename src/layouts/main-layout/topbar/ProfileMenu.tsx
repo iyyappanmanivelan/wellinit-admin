@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import { Avatar3 } from 'data/images';
 import Menu from '@mui/material/Menu';
 import Box from '@mui/material/Box';
@@ -71,9 +71,7 @@ const ProfileMenu = () => {
   const Maindata: { role: string  , email : string }[] | [] = value ? JSON.parse(value) : ''
 
   const Logout = ()=>{
-
     localStorage.removeItem('Singin_Data');
-
   }
 
 
