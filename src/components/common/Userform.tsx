@@ -6,11 +6,14 @@ import { CircularProgress, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import moment from 'moment';
 import { instance } from 'config/config';
-import {toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 interface Formdata {
-    name: string;
+    // name: string;
     comment: string;
     title: string;
     content: string;
@@ -31,18 +34,21 @@ const Userform = ({ onClose }: any) => {
 
     const [multimg, setmultimg] = useState<string[]>([]);
 
+    const [content, setcontent] = useState<string>('')
+    const [overview, setoverview] = useState<string>('')
+
     const apiKey = '/api/blogs';
 
     const schema = Yup.object().shape({
         title: Yup.string().required('Enter Title'),
-        content: Yup.string().required('Enter Content'),
-        name: Yup.string().required('Enter Name'),
-        comment: Yup.string(),
+        // content: Yup.string().required('Enter Content'),
+        // comment: Yup.string().required('Enter Your Overview'),
     });
+
+
 
     const Formik = useFormik<Formdata>({
         initialValues: {
-            name: '',
             comment: '',
             title: '',
             content: '',
@@ -57,6 +63,8 @@ const Userform = ({ onClose }: any) => {
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
 
+
+
             try {
                 const MOMENT = moment();
                 const DD = MOMENT.date();
@@ -65,11 +73,11 @@ const Userform = ({ onClose }: any) => {
                 const time = moment().utcOffset('+05:30').format('hh:mm a');
 
                 const data = {
-                    name: values?.name,
+                    // name: values?.name,
                     title: values?.title,
-                    content: values?.content,
+                    content: content,
                     img: values?.img,
-                    comment: values?.comment,
+                    comment: overview,
                     relatedimg: multimg,
                     mm_dd_yy: `${MM} ${DD}, ${YY}`,
                     time: `${time}`,
@@ -156,6 +164,14 @@ const Userform = ({ onClose }: any) => {
         onClose();
     };
 
+    const modules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            ['bold', 'italic', 'underline'],
+            ['code-block', 'link',]
+        ]
+    };
+
 
     const submitting = Formik.isSubmitting;
 
@@ -180,12 +196,12 @@ const Userform = ({ onClose }: any) => {
                     onSubmit={Formik.handleSubmit}
                     style={{ overflowY: 'scroll', height: '450px', marginTop: '20px' }}
                 >
-                    <div className="bloginput">
+                    {/* <div className="bloginput">
                         <label>Name</label>
                         <TextField
                             id="name"
                             type="text"
-                            style={{ border: '2px solid #000', borderRadius: '5px', marginTop: '5px' }}
+                            style={{ border: '2px solid rgb(147 143 143)', borderRadius: '5px', marginTop: '5px' }}
                             variant="filled"
                             placeholder="Enter Blog Name"
                             {...Formik.getFieldProps('name')}
@@ -195,84 +211,7 @@ const Userform = ({ onClose }: any) => {
                         {Formik.touched.name && Formik.errors.name ? (
                             <span className="error">{Formik.errors.name}</span>
                         ) : null}
-                    </div>
-
-                    <div className="bloginput">
-                        <label>Title</label>
-                        <TextField
-                            id="title"
-                            type="text"
-                            style={{ border: '2px solid #000', borderRadius: '5px', marginTop: '5px' }}
-                            variant="filled"
-                            placeholder="Enter Blog Title"
-                            {...Formik.getFieldProps('title')}
-                            fullWidth
-                        />
-                        {Formik.touched.title && Formik.errors.title ? (
-                            <span className="error">{Formik.errors.title}</span>
-                        ) : null}
-                    </div>
-
-                    <div className="bloginput">
-                        <label>Content</label>
-                        <textarea
-                            aria-label="minimum height"
-                            id="content"
-                            rows={6}
-                            {...Formik.getFieldProps('content')}
-                            placeholder="Enter Blog Content"
-                            style={{
-                                border: '2px solid #000',
-                                borderRadius: '5px',
-                                width: '100%',
-                                padding: '20px',
-                                marginTop: '5px',
-                                font: 'inherit',
-                            }}
-                        />
-                        {Formik.touched.content && Formik.errors.content ? (
-                            <span className="error">{Formik.errors.content}</span>
-                        ) : null}
-                    </div>
-
-                    <div className="bloginput">
-                        <label>Overview</label>
-                        <textarea
-                            aria-label="minimum height"
-                            rows={4}
-                            id="comment"
-                            {...Formik.getFieldProps('comment')}
-                            placeholder="Enter Overview"
-                            style={{
-                                border: '2px solid #000',
-                                borderRadius: '5px',
-                                width: '100%',
-                                padding: '20px',
-                                marginTop: '5px',
-                                font: 'inherit',
-                            }}
-                        />
-                        {Formik.touched.comment && Formik.errors.comment ? (
-                            <span className="error">{Formik.errors.comment}</span>
-                        ) : null}
-                    </div>
-
-                    <input
-                        id="file"
-                        name="file"
-                        type="file"
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
-                    />
-
-                    <input
-                        id="file2"
-                        name="file"
-                        type="file"
-                        multiple
-                        onChange={handleFileChange2}
-                        style={{ display: 'none' }}
-                    />
+                    </div> */}
 
                     <div className="bloginput">
                         <label>Choose Image</label>
@@ -297,6 +236,93 @@ const Userform = ({ onClose }: any) => {
                             </div>
                         ) : null}
                     </div>
+
+                    <div className="bloginput">
+                        <label>Title</label>
+                        <TextField
+                            id="title"
+                            type="text"
+                            style={{ border: '2px solid rgb(147 143 143)', borderRadius: '5px', marginTop: '5px' }}
+                            variant="filled"
+                            placeholder="Enter Blog Title"
+                            {...Formik.getFieldProps('title')}
+                            fullWidth
+                        />
+                        {Formik.touched.title && Formik.errors.title ? (
+                            <span className="error">{Formik.errors.title}</span>
+                        ) : null}
+                    </div>
+
+                    <div className="bloginput">
+                        <label>Overview</label>
+                        {/* <textarea
+                            aria-label="minimum height"
+                            rows={4}
+                            id="comment"
+                            {...Formik.getFieldProps('comment')}
+                            placeholder="Enter Overview"
+                            style={{
+                                border: '2px solid rgb(147 143 143)',
+                                borderRadius: '5px',
+                                width: '100%',
+                                padding: '20px',
+                                marginTop: '5px',
+                                font: 'inherit',
+                            }}
+                        /> */}
+
+                        <ReactQuill theme="snow" modules={modules} value={overview} onChange={setoverview} />
+
+                        {/* 
+                        {Formik.touched.comment && Formik.errors.comment ? (
+                            <span className="error">{Formik.errors.comment}</span>
+                        ) : null} */}
+                    </div>
+
+
+                    <div className="bloginput">
+                        <label>Content</label>
+                        {/* <textarea
+                            aria-label="minimum height"
+                            id="content"
+                            rows={6}
+                            {...Formik.getFieldProps('content')}
+                            placeholder="Enter Blog Content"
+                            style={{
+                                border: '2px solid rgb(147 143 143)',
+                                borderRadius: '5px',
+                                width: '100%',
+                                padding: '20px',
+                                marginTop: '5px',
+                                font: 'inherit',
+                            }}
+                        />
+                        {Formik.touched.content && Formik.errors.content ? (
+                            <span className="error">{Formik.errors.content}</span>
+                        ) : null} */}
+                        <ReactQuill theme="snow" modules={modules} value={content} onChange={setcontent} />
+
+                    </div>
+
+
+                    <input
+                        id="file"
+                        name="file"
+                        type="file"
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />
+
+                    <input
+                        id="file2"
+                        name="file"
+                        type="file"
+                        multiple
+                        onChange={handleFileChange2}
+                        style={{ display: 'none' }}
+                    />
+
+
 
                     <div className="bloginput">
                         <label>Choose Related Image</label>
@@ -352,8 +378,8 @@ const Userform = ({ onClose }: any) => {
 
             </div>
 
-                  <ToastContainer position='top-center'/>
-            
+            <ToastContainer position='top-center' />
+
         </>
     )
 

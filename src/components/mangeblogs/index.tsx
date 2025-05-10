@@ -32,6 +32,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import moment from 'moment';
 import NODTA from 'assets/images/nodata.svg';
 import { Popup } from 'components/common/Popup';
+import DOMPurify from 'dompurify';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 interface Blogdata {
   id: number;
@@ -61,6 +65,8 @@ const MangeblogsComponent = () => {
   const router = useNavigate();
   const [bolbimg, setbolbimg] = useState<File>();
   const [multimg, setmultimg] = useState<string[]>([]);
+    const [content , setcontent] = useState<string>('')
+      const [overview , setoverview] = useState<string>('')
 
   const screenWidth = useScreenWidth();
   const slidesPerView = screenWidth >= 1024 ? 3 : screenWidth >= 768 ? 2 : 1;
@@ -77,11 +83,20 @@ const MangeblogsComponent = () => {
   const [bbid, setbbid] = useState<number>();
   const apiKey = '/api/blogs';
 
+      const modules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, 4 , 5 , 6 , false] }],
+            ['bold', 'italic', 'underline'],
+            [ 'code-block' , 'link' ,]
+        ]
+    };
+
+
   const schema = Yup.object().shape({
     title: Yup.string().required('Enter Title'),
-    content: Yup.string().required('Enter Content'),
-    name: Yup.string().required('Enter Name'),
-    comment: Yup.string(),
+    // content: Yup.string().required('Enter Content'),
+    // name: Yup.string().required('Enter Name'),
+    // comment: Yup.string(),
   });
 
   const Formik = useFormik<Formdata>({
@@ -109,11 +124,11 @@ const MangeblogsComponent = () => {
         const time = moment().utcOffset('+05:30').format('hh:mm a');
 
         const data = {
-          name: values?.name,
+          // name: values?.name,
           title: values?.title,
-          content: values?.content,
+          content: content,
           img: values?.img,
-          comment: values?.comment,
+          comment: overview,
           relatedimg: multimg,
           mm_dd_yy: `${MM} ${DD}, ${YY}`,
           time: `${time}`,
@@ -220,8 +235,10 @@ const MangeblogsComponent = () => {
       .then((res) => {
         Formik.setFieldValue('name', res?.name);
         Formik.setFieldValue('title', res?.title);
-        Formik.setFieldValue('content', res?.content);
-        Formik.setFieldValue('comment', res?.comment);
+        // Formik.setFieldValue('content', res?.content);
+        // Formik.setFieldValue('comment', res?.comment);
+        setcontent(res?.content)
+        setoverview(res?.comment)
         Formik.setFieldValue('img', res?.img);
         setmultimg(res?.relatedimg);
       })
@@ -272,6 +289,7 @@ const MangeblogsComponent = () => {
     const ddd = multimg.filter((val) => !val.includes(data));
     setmultimg(ddd);
   };
+ 
 
   return (
 
@@ -285,7 +303,9 @@ const MangeblogsComponent = () => {
         {Blogdata ? (
 
           <ReactSwiper slidesPerView={slidesPerView}>
-            {Blogdata?.map((data, i) => (
+
+            {
+            Blogdata?.map((data, i) => (
               <SwiperSlide key={i}>
                 <Card sx={{ userSelect: 'none' }}>
                   <CardMedia
@@ -331,9 +351,9 @@ const MangeblogsComponent = () => {
                         </div>
                       </Stack>
 
-                      <Typography variant="subtitle2" color="text.secondary" className="title-bg">
+                      {/* <Typography variant="subtitle2" color="text.secondary" className="title-bg">
                         {data.name}
-                      </Typography>
+                      </Typography> */}
                     </Box>
 
                     <Box mt={1.5}>
@@ -342,8 +362,8 @@ const MangeblogsComponent = () => {
                         color="text.primary"
                         fontWeight={500}
                         className="content"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.comment ? data?.comment : data?.content) }}
                       >
-                        {data?.content}
                       </Typography>
                     </Box>
 
@@ -389,99 +409,22 @@ const MangeblogsComponent = () => {
 
         <Typography fontSize="1.5rem" margin="5px 0px" fontWeight="600">Edit Blogs</Typography>
         <form onSubmit={Formik.handleSubmit} style={{ overflowY: 'scroll', height: '450px' }}>
-          <div className="bloginput">
+          {/* <div className="bloginput">
             <label>Name</label>
             <TextField
               id="name"
               type="text"
-              style={{ border: '2px solid #000', borderRadius: '5px', marginTop: '5px' }}
+              style={{ border: '2px solid rgb(147 143 143)', borderRadius: '5px', marginTop: '5px' }}
               variant="filled"
               placeholder="Enter Blog Name"
               {...Formik.getFieldProps('name')}
               fullWidth
-            // autoFocus
             />
             {Formik.touched.name && Formik.errors.name ? (
               <span className="error">{Formik.errors.name}</span>
             ) : null}
-          </div>
-          <div className="bloginput">
-            <label>Title</label>
-            <TextField
-              id="title"
-              type="text"
-              style={{ border: '2px solid #000', borderRadius: '5px', marginTop: '5px' }}
-              variant="filled"
-              placeholder="Enter Blog Title"
-              {...Formik.getFieldProps('title')}
-              fullWidth
-            // autoFocus
-            />
-            {Formik.touched.title && Formik.errors.title ? (
-              <span className="error">{Formik.errors.title}</span>
-            ) : null}
-          </div>
+          </div> */}
 
-          <div className="bloginput">
-            <label>Content</label>
-            <textarea
-              aria-label="minimum height"
-              id="content"
-              rows={6}
-              {...Formik.getFieldProps('content')}
-              placeholder="Enter Blog Content"
-              style={{
-                border: '2px solid #000',
-                borderRadius: '5px',
-                width: '100%',
-                padding: '20px',
-                marginTop: '5px',
-                font: 'inherit',
-              }}
-            />
-            {Formik.touched.content && Formik.errors.content ? (
-              <span className="error">{Formik.errors.content}</span>
-            ) : null}
-          </div>
-
-          <div className="bloginput">
-            <label>Comment</label>
-            <textarea
-              aria-label="minimum height"
-              rows={4}
-              id="comment"
-              {...Formik.getFieldProps('comment')}
-              placeholder="Enter Comment"
-              style={{
-                border: '2px solid #000',
-                borderRadius: '5px',
-                width: '100%',
-                padding: '20px',
-                marginTop: '5px',
-                font: 'inherit',
-              }}
-            />
-            {Formik.touched.comment && Formik.errors.comment ? (
-              <span className="error">{Formik.errors.comment}</span>
-            ) : null}
-          </div>
-
-          <input
-            id="file"
-            name="file"
-            type="file"
-            onChange={handleFileChange}
-            style={{ display: 'none' }}
-          />
-
-          <input
-            id="file2"
-            name="file"
-            type="file"
-            multiple
-            onChange={handleFileChange2}
-            style={{ display: 'none' }}
-          />
 
           <div className="bloginput">
             <label>Choose Image</label>
@@ -508,6 +451,93 @@ const MangeblogsComponent = () => {
 
             ) : null}
           </div>
+
+
+          <div className="bloginput">
+            <label>Title</label>
+            <TextField
+              id="title"
+              type="text"
+              style={{ border: '2px solid rgb(147 143 143)', borderRadius: '5px', marginTop: '5px' }}
+              variant="filled"
+              placeholder="Enter Blog Title"
+              {...Formik.getFieldProps('title')}
+              fullWidth
+            // autoFocus
+            />
+            {Formik.touched.title && Formik.errors.title ? (
+              <span className="error">{Formik.errors.title}</span>
+            ) : null}
+          </div>
+
+          <div className="bloginput">
+            <label>Overview</label>
+            {/* <textarea
+              aria-label="minimum height"
+              rows={4}
+              id="comment"
+              {...Formik.getFieldProps('comment')}
+              placeholder="Enter Overview"
+              style={{
+                border: '2px solid rgb(147 143 143)',
+                borderRadius: '5px',
+                width: '100%',
+                padding: '20px',
+                marginTop: '5px',
+                font: 'inherit',
+              }}
+            />
+            {Formik.touched.comment && Formik.errors.comment ? (
+              <span className="error">{Formik.errors.comment}</span>
+            ) : null} */}
+                                    <ReactQuill theme="snow" modules={modules} value={overview} onChange={setoverview} />
+            
+          </div>
+
+          <div className="bloginput">
+            <label>Content</label>
+            {/* <textarea
+              aria-label="minimum height"
+              id="content"
+              rows={6}
+              {...Formik.getFieldProps('content')}
+              placeholder="Enter Blog Content"
+              style={{
+                border: '2px solid rgb(147 143 143)',
+                borderRadius: '5px',
+                width: '100%',
+                padding: '20px',
+                marginTop: '5px',
+                font: 'inherit',
+              }}
+            />
+            {Formik.touched.content && Formik.errors.content ? (
+              <span className="error">{Formik.errors.content}</span>
+            ) : null} */}
+                                    <ReactQuill theme="snow" modules={modules} value={content} onChange={setcontent} />
+            
+          </div>
+
+         
+
+          <input
+            id="file"
+            name="file"
+            type="file"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+
+          <input
+            id="file2"
+            name="file"
+            type="file"
+            multiple
+            onChange={handleFileChange2}
+            style={{ display: 'none' }}
+          />
+
+
 
           <div className="bloginput">
             <label>Choose Related Image</label>
@@ -567,36 +597,36 @@ const MangeblogsComponent = () => {
 
       <Popup open={open2} onClose={handleClose2}  >
 
-      <div>
-            <div className="blog-head" style={{ textAlign: 'center' }}>
-              <h3>Are you sure ?</h3>
-            </div>
-            <div
-              className="blogdlt"
-              style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '30px 0px' }}
-            >
-              <button
-                className="btn"
-                style={{ background: '#00a9e5', color: '#ffff' }}
-                onClick={() => {
-                  Confirmdelete();
-                }}
-              >
-                Yes
-              </button>
-              <button
-                className="btn"
-                style={{ background: 'gray', color: '#ffff' }}
-                onClick={handleClose2}
-              >
-                No
-              </button>
-            </div>
+        <div>
+          <div className="blog-head" style={{ textAlign: 'center' }}>
+            <h3>Are you sure ?</h3>
           </div>
+          <div
+            className="blogdlt"
+            style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '30px 0px' }}
+          >
+            <button
+              className="btn"
+              style={{ background: '#00a9e5', color: '#ffff' }}
+              onClick={() => {
+                Confirmdelete();
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="btn"
+              style={{ background: 'gray', color: '#ffff' }}
+              onClick={handleClose2}
+            >
+              No
+            </button>
+          </div>
+        </div>
       </Popup>
 
 
-      <ToastContainer position='top-center'/>
+      <ToastContainer position='top-center' />
     </>
   );
 };

@@ -4,6 +4,11 @@ import { useScreenWidth } from "components/base/usescreenwidth";
 import { instance } from "config/config";
 import { useEffect, useState } from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
+import noimg from 'assets/images/noimg.jpg';
+
+
+import DOMPurify from 'dompurify';
+
 
 
 interface data {
@@ -17,7 +22,7 @@ interface Task {
     comment: string,
     content: string,
     img: string,
-    relatedimg: []
+    relatedimg: [] ,
     mm_dd_yy: string,
     time: string
 }
@@ -72,7 +77,7 @@ const BlogdetailComponent = ({ id }: data) => {
                 <div className="bgtech">
                     <div className="bloginfo" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                         <IconifyIcon icon="mdi:account-circle" color="text.secondary" fontSize="h6.fontSize" />
-                        <p>{Detail?.name}</p>
+                        <p>{'Admin'}</p>
                     </div>
                     <div className="bloginfo" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                         <IconifyIcon icon="mdi:application" color="text.secondary" fontSize="h6.fontSize" />
@@ -85,36 +90,55 @@ const BlogdetailComponent = ({ id }: data) => {
                 </div>
 
                 <div className="bgmpic">
-                    <img src={Detail?.img} className="img-fluid" />
-                </div>
-                <div className="bgcnt" >
-                    <p>{Detail?.comment}</p>
-                </div>
-                <div className="bgcnt" >
-                    <p>{Detail?.content}</p>
+                    <img src={Detail?.img ? Detail?.img : noimg} className="img-fluid" />
                 </div>
 
-                <div className="relateimg">
-                    <ReactSwiper
-                        slidesPerView={slidesPerView}
+                {
+                    Detail?.comment ? (
+                        <div className="bgcnt" >
+                            <h5 className="bgcntsub">Overview</h5>
+                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(Detail?.comment) }}></div>
+                        </div>
+                    ) : ''
+                }
 
-                    >
-                        <Swiper>
-                            {
-                                Detail?.relatedimg?.map((img) => (
-                                    <SwiperSlide >
-                                        <div className="rl-img">
-                                            <img src={img} className="img-fluid" />
-                                        </div>
+                {
+                    Detail?.content ? (
+                        <div className="bgcnt" >
+                            <h5 className="bgcntsub">Description</h5>
+                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(Detail?.content) }}></div>
+                        </div>
 
-                                    </SwiperSlide>
-                                ))
-                            }
+                    ) : ''
+                }
 
-                        </Swiper>
 
-                    </ReactSwiper>
-                </div>
+                {
+                    Detail?.relatedimg   ?
+                        (
+                            <div className="relateimg">
+                                <h5 className="bgcntsub">Realted Images</h5>
+                                <ReactSwiper
+                                    slidesPerView={slidesPerView}
+                                >
+                                    <Swiper>
+                                        {
+                                            Detail?.relatedimg?.map((img) => (
+                                                <SwiperSlide >
+                                                    <div className="rl-img">
+                                                        <img src={img} className="img-fluid" />
+                                                    </div>
+
+                                                </SwiperSlide>
+                                            ))
+                                        }
+
+                                    </Swiper>
+
+                                </ReactSwiper>
+                            </div>
+                        ) : ''
+                }
 
 
             </div>

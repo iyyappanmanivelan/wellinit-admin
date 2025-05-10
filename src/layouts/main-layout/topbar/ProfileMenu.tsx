@@ -1,5 +1,4 @@
 import {useState } from 'react';
-import { Avatar3 } from 'data/images';
 import Menu from '@mui/material/Menu';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -11,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconifyIcon from 'components/base/IconifyIcon';
 import { useNavigate } from 'react-router-dom';
+import wellinitlogo from 'assets/images/wellinit_logo.png'
 
 interface MenuItems {
   id: number;
@@ -85,11 +85,11 @@ const ProfileMenu = () => {
         disableRipple
       >
         <Avatar
-          src={Avatar3}
+          src={wellinitlogo}
           sx={{
             height: 48,
             width: 48,
-            bgcolor: 'primary.main',
+            backgroundColor : "#fff",
           }}
         />
       </ButtonBase>
@@ -112,7 +112,7 @@ const ProfileMenu = () => {
       >
         <Box p={1}>
           <MenuItem onClick={handleProfileMenuClose} sx={{ '&:hover': { bgcolor: 'info.light' } }}>
-            <Avatar src={Avatar3} sx={{ mr: 1, height: 42, width: 42 }} />
+            <Avatar src={wellinitlogo} sx={{ mr: 1, height: 42, width: 42  ,  backgroundColor : "#fff",}} />
             <Stack direction="column">
               <Typography variant="body2" color="text.primary" fontWeight={600}>
                 {
