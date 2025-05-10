@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import upload from 'assets/images/icons/upload.png';
 import filtericon from 'assets/images/icons/close2.png';
 import { CircularProgress, TextField, Typography } from '@mui/material';

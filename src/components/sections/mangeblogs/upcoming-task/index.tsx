@@ -16,7 +16,7 @@ import upload from "assets/images/icons/upload.png"
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik'
 import filtericon from 'assets/images/icons/close2.png'
-import * as Yup from 'Yup'
+import * as Yup from 'yup'
 import axios from 'axios';
 import { toast } from 'react-toastify'
 import moment from 'moment'
